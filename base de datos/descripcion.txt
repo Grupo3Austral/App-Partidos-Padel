@@ -1,0 +1,4 @@
+tengo que subir a git:
+1- diagrama
+2- explicacion del diagrama
+3- script de la base de datos
