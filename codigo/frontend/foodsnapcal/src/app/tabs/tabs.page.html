@@ -1,0 +1,31 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home" [routerLink]="['/tabs/home']">
+      <img src="assets/img/home-outline.svg" alt="Logout" style="width: 24px; height: 24px;" />
+    </ion-tab-button>
+
+
+    <ion-tab-button tab="matches">
+      <ion-icon name="tennisball"></ion-icon>
+      <ion-label>Partidos</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="stats">
+      <ion-icon name="stats-chart"></ion-icon>
+      <ion-label>Estadísticas</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="players">
+      <ion-icon name="people"></ion-icon>
+      <ion-label>Jugadores</ion-label>
+    </ion-tab-button>
+    
+    <ion-tab-button (click)="logoutDirect()" tab="profile">
+      <img src="assets/img/log-out-outline.svg" alt="Logout" style="width: 24px; height: 24px;" />
+    </ion-tab-button>
+    
+  </ion-tab-bar>
+</ion-tabs>
+
+
+
