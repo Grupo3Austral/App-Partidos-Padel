@@ -14,45 +14,54 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [FormsModule,CommonModule, IonicModule]
 })
-export class HomePage {
-  productos: any[] = [];
-  nuevoProducto = { nombre: '', precio: 0, stock: 0 };
+
+export class HomePage implements OnInit {
+  padelList: any[] = [];
+  nuevoPadel: any = { perfil_id: '', estadistica_id: '', cancha_id: '', ubicacion: '', horario_id: '' };
 
   editando = false;
-  productoEditando: any = null;
+  padelEditando: any = null;
 
   constructor(private db: DatabaseService) {}
 
   async ngOnInit() {
-    await this.cargarProductos();
+    await this.cargarPadel();
   }
 
-  async cargarProductos() {
-    this.productos = await this.db.getAll('productos');
+  async cargarPadel() {
+    this.padelList = await this.db.getAll('padel');
   }
 
-  async agregarProducto() {
-    await this.db.insert('productos', this.nuevoProducto);
-    this.nuevoProducto = { nombre: '', precio: 0, stock: 0 };
-    await this.cargarProductos();
+  async agregarPadel() {
+    if (!this.nuevoPadel.ubicacion) return;
+    await this.db.insert('padel', this.nuevoPadel);
+    this.nuevoPadel = { perfil_id: '', estadistica_id: '', cancha_id: '', ubicacion: '', horario_id: '' };
+    await this.cargarPadel();
   }
 
-  editarProducto(producto: any) {
+  editarPadel(padel: any) {
     this.editando = true;
-    this.productoEditando = { ...producto };
+    this.padelEditando = { ...padel };
   }
 
   async guardarEdicion() {
-    if (this.productoEditando && this.productoEditando.id) {
-      await this.db.update('productos', this.productoEditando.id, this.productoEditando);
-      this.editando = false;
-      this.productoEditando = null;
-      await this.cargarProductos();
-    }
+    if (!this.padelEditando?.id) return;
+    await this.db.update('padel', this.padelEditando.id, this.padelEditando);
+    this.editando = false;
+    this.padelEditando = null;
+    await this.cargarPadel();
   }
 
-  async eliminarProducto(id: number) {
-    await this.db.delete('productos', id);
-    await this.cargarProductos();
+  cancelarEdicion() {
+    this.editando = false;
+    this.padelEditando = null;
+  }
+
+  async eliminarPadel(id: string) {
+    if (!id) return;
+    const ok = confirm('¿Eliminar este registro de padel?');
+    if (!ok) return;
+    await this.db.delete('padel', Number(id));
+    await this.cargarPadel();
   }
 }
