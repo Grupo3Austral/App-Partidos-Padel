@@ -1,12 +1,12 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="dark">
     <ion-title>Gestión de Padel</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
 
-  <!-- Alta -->
+  <!-- Formulario alta -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Agregar Registro de Padel</ion-card-title>
@@ -32,7 +32,7 @@
         <ion-label position="floating">Horario ID</ion-label>
         <ion-input [(ngModel)]="nuevoPadel.horario_id"></ion-input>
       </ion-item>
-      <ion-button expand="block" (click)="agregarPadel()">Agregar</ion-button>
+      <ion-button expand="block" color="primary" (click)="agregarPadel()">Agregar</ion-button>
     </ion-card-content>
   </ion-card>
 
@@ -43,24 +43,8 @@
     </ion-card-header>
     <ion-card-content>
       <ion-item>
-        <ion-label position="floating">Perfil ID</ion-label>
-        <ion-input [(ngModel)]="padelEditando.perfil_id"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Estadística ID</ion-label>
-        <ion-input [(ngModel)]="padelEditando.estadistica_id"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Cancha ID</ion-label>
-        <ion-input [(ngModel)]="padelEditando.cancha_id"></ion-input>
-      </ion-item>
-      <ion-item>
         <ion-label position="floating">Ubicación</ion-label>
         <ion-input [(ngModel)]="padelEditando.ubicacion"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Horario ID</ion-label>
-        <ion-input [(ngModel)]="padelEditando.horario_id"></ion-input>
       </ion-item>
       <ion-button expand="block" (click)="guardarEdicion()">Guardar cambios</ion-button>
       <ion-button expand="block" fill="outline" color="medium" (click)="cancelarEdicion()">Cancelar</ion-button>
@@ -72,11 +56,10 @@
     <ion-item *ngFor="let p of padelList">
       <ion-label>
         <h2>{{ p.ubicacion }}</h2>
-        <p>Perfil: {{ p.perfil_id }} | Cancha: {{ p.cancha_id }} | Horario: {{ p.horario_id }}</p>
+        <p>{{ p.cancha_id }} - {{ p.horario_id }}</p>
       </ion-label>
       <ion-button fill="clear" color="primary" (click)="editarPadel(p)">Editar</ion-button>
       <ion-button fill="clear" color="danger" (click)="eliminarPadel(p.id)">Eliminar</ion-button>
     </ion-item>
   </ion-list>
-
 </ion-content>

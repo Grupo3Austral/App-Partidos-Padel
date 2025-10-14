@@ -1,42 +1,49 @@
 // src/app/pages/productos/productos.page.ts
-import { Component, OnInit } from '@angular/core';
-import { DatabaseService } from '../../services/database';
-import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { Component } from '@angular/core';
+import { createClient } from '@supabase/supabase-js';
+import { environment } from 'src/environments/environment';
 import { FormsModule } from '@angular/forms';
 
-
+const supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
-  standalone: true,
-  imports: [FormsModule,CommonModule, IonicModule]
 })
-
-export class HomePage implements OnInit {
+export class HomePage {
+  // Variables que usa el HTML
   padelList: any[] = [];
-  nuevoPadel: any = { perfil_id: '', estadistica_id: '', cancha_id: '', ubicacion: '', horario_id: '' };
+  nuevoPadel: any = {
+    perfil_id: '',
+    estadistica_id: '',
+    cancha_id: '',
+    ubicacion: '',
+    horario_id: ''
+  };
 
   editando = false;
   padelEditando: any = null;
-
-  constructor(private db: DatabaseService) {}
 
   async ngOnInit() {
     await this.cargarPadel();
   }
 
   async cargarPadel() {
-    this.padelList = await this.db.getAll('padel');
+    const { data, error } = await supabase.from('padel').select('*').order('created_at', { ascending: false });
+    if (!error) this.padelList = data || [];
   }
 
   async agregarPadel() {
-    if (!this.nuevoPadel.ubicacion) return;
-    await this.db.insert('padel', this.nuevoPadel);
-    this.nuevoPadel = { perfil_id: '', estadistica_id: '', cancha_id: '', ubicacion: '', horario_id: '' };
-    await this.cargarPadel();
+    const { error } = await supabase.from('padel').insert([this.nuevoPadel]);
+    if (error) {
+      console.error(error.message);
+      alert('❌ Error: ' + error.message);
+    } else {
+      alert('✅ Registro agregado');
+      this.nuevoPadel = { perfil_id: '', estadistica_id: '', cancha_id: '', ubicacion: '', horario_id: '' };
+      await this.cargarPadel();
+    }
   }
 
   editarPadel(padel: any) {
@@ -45,11 +52,15 @@ export class HomePage implements OnInit {
   }
 
   async guardarEdicion() {
-    if (!this.padelEditando?.id) return;
-    await this.db.update('padel', this.padelEditando.id, this.padelEditando);
-    this.editando = false;
-    this.padelEditando = null;
-    await this.cargarPadel();
+    const { error } = await supabase.from('padel').update(this.padelEditando).eq('id', this.padelEditando.id);
+    if (error) {
+      alert('❌ Error al editar: ' + error.message);
+    } else {
+      alert('✅ Cambios guardados');
+      this.editando = false;
+      this.padelEditando = null;
+      await this.cargarPadel();
+    }
   }
 
   cancelarEdicion() {
@@ -58,10 +69,15 @@ export class HomePage implements OnInit {
   }
 
   async eliminarPadel(id: string) {
-    if (!id) return;
-    const ok = confirm('¿Eliminar este registro de padel?');
+    const ok = confirm('¿Eliminar este registro?');
     if (!ok) return;
-    await this.db.delete('padel', Number(id));
-    await this.cargarPadel();
+
+    const { error } = await supabase.from('padel').delete().eq('id', id);
+    if (error) {
+      alert('❌ Error: ' + error.message);
+    } else {
+      alert('🗑️ Registro eliminado');
+      await this.cargarPadel();
+    }
   }
 }
