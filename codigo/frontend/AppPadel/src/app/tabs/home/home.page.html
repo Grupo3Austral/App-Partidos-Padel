@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Productos</ion-title>
+    <ion-title>Gestión de Padel</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -9,56 +9,73 @@
   <!-- Alta -->
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Agregar Producto</ion-card-title>
+      <ion-card-title>Agregar Registro de Padel</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-item>
-        <ion-label position="floating">Nombre</ion-label>
-        <ion-input [(ngModel)]="nuevoProducto.nombre"></ion-input>
+        <ion-label position="floating">Perfil ID</ion-label>
+        <ion-input [(ngModel)]="nuevoPadel.perfil_id"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Precio</ion-label>
-        <ion-input type="number" [(ngModel)]="nuevoProducto.precio"></ion-input>
+        <ion-label position="floating">Estadística ID</ion-label>
+        <ion-input [(ngModel)]="nuevoPadel.estadistica_id"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Stock</ion-label>
-        <ion-input type="number" [(ngModel)]="nuevoProducto.stock"></ion-input>
+        <ion-label position="floating">Cancha ID</ion-label>
+        <ion-input [(ngModel)]="nuevoPadel.cancha_id"></ion-input>
       </ion-item>
-      <ion-button expand="full" (click)="agregarProducto()">Agregar</ion-button>
+      <ion-item>
+        <ion-label position="floating">Ubicación</ion-label>
+        <ion-input [(ngModel)]="nuevoPadel.ubicacion"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Horario ID</ion-label>
+        <ion-input [(ngModel)]="nuevoPadel.horario_id"></ion-input>
+      </ion-item>
+      <ion-button expand="block" (click)="agregarPadel()">Agregar</ion-button>
     </ion-card-content>
   </ion-card>
 
   <!-- Edición -->
   <ion-card *ngIf="editando">
     <ion-card-header>
-      <ion-card-title>Editar Producto</ion-card-title>
+      <ion-card-title>Editar Registro</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-item>
-        <ion-label position="floating">Nombre</ion-label>
-        <ion-input [(ngModel)]="productoEditando.nombre"></ion-input>
+        <ion-label position="floating">Perfil ID</ion-label>
+        <ion-input [(ngModel)]="padelEditando.perfil_id"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Precio</ion-label>
-        <ion-input type="number" [(ngModel)]="productoEditando.precio"></ion-input>
+        <ion-label position="floating">Estadística ID</ion-label>
+        <ion-input [(ngModel)]="padelEditando.estadistica_id"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Stock</ion-label>
-        <ion-input type="number" [(ngModel)]="productoEditando.stock"></ion-input>
+        <ion-label position="floating">Cancha ID</ion-label>
+        <ion-input [(ngModel)]="padelEditando.cancha_id"></ion-input>
       </ion-item>
-      <ion-button expand="full" (click)="guardarEdicion()">Guardar cambios</ion-button>
+      <ion-item>
+        <ion-label position="floating">Ubicación</ion-label>
+        <ion-input [(ngModel)]="padelEditando.ubicacion"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Horario ID</ion-label>
+        <ion-input [(ngModel)]="padelEditando.horario_id"></ion-input>
+      </ion-item>
+      <ion-button expand="block" (click)="guardarEdicion()">Guardar cambios</ion-button>
+      <ion-button expand="block" fill="outline" color="medium" (click)="cancelarEdicion()">Cancelar</ion-button>
     </ion-card-content>
   </ion-card>
 
   <!-- Listado -->
   <ion-list>
-    <ion-item *ngFor="let p of productos">
+    <ion-item *ngFor="let p of padelList">
       <ion-label>
-        <h2>{{ p.nombre }}</h2>
-        <p>Precio: ${{ p.precio }} - Stock: {{ p.stock }}</p>
+        <h2>{{ p.ubicacion }}</h2>
+        <p>Perfil: {{ p.perfil_id }} | Cancha: {{ p.cancha_id }} | Horario: {{ p.horario_id }}</p>
       </ion-label>
-      <ion-button fill="clear" color="primary" (click)="editarProducto(p)">Editar</ion-button>
-      <ion-button fill="clear" color="danger" (click)="eliminarProducto(p.id)">Eliminar</ion-button>
+      <ion-button fill="clear" color="primary" (click)="editarPadel(p)">Editar</ion-button>
+      <ion-button fill="clear" color="danger" (click)="eliminarPadel(p.id)">Eliminar</ion-button>
     </ion-item>
   </ion-list>
 
