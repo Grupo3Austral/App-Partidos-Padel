@@ -1,28 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
+import { IonicModule } from '@ionic/angular';
 import { createClient } from '@supabase/supabase-js';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 
 const supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
 
 @Component({
-  selector: 'app-estadistica',
-  templateUrl: './estadistica.page.html',
-  styleUrls: ['./estadistica.page.scss'],
+  selector: 'app-stats',
+  templateUrl: './stats.page.html',
+  styleUrls: ['./stats.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule],
+  imports: [IonicModule, CommonModule]
 })
-export class EstadisticaPage implements OnInit {
-  ranking: any[] = [];
+export class StatsPage implements OnInit {
+  jugadores: any[] = [];
 
   async ngOnInit() {
-    await this.obtenerRanking();
+    await this.cargarRanking();
   }
 
-  async obtenerRanking() {
-    const { data, error } = await supabase.from('ranking_top10').select('*');
-    if (error) console.error('Error cargando ranking:', error);
-    else this.ranking = data;
+  async cargarRanking() {
+    const { data, error } = await supabase
+      .from('jugadores') // nombre de la tabla (asegurate que sea correcto)
+      .select('nombre, puntos')
+      .order('puntos', { ascending: false })
+      .limit(10);
+
+    if (error) {
+      console.error('Error al cargar el ranking:', error);
+    } else {
+      this.jugadores = data || [];
+    }
   }
 }
