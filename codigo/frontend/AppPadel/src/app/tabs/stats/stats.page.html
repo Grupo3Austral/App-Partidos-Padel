@@ -1,13 +1,27 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>stats</ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Ranking Top 10 - Padel 🏆</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">stats</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <ion-card *ngIf="ranking.length > 0">
+    <ion-card-header>
+      <ion-card-title>Mejores Jugadores</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let jugador of ranking; let i = index">
+          <ion-label>
+            <h2>#{{ i + 1 }} {{ jugador.nombre }}</h2>
+            <p>Puntos: {{ jugador.puntos }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-text color="medium" *ngIf="ranking.length === 0">
+    <p>No hay datos disponibles.</p>
+  </ion-text>
 </ion-content>

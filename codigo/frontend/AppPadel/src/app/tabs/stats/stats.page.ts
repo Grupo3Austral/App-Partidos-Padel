@@ -1,20 +1,28 @@
 import { Component, OnInit } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { createClient } from '@supabase/supabase-js';
+import { environment } from 'src/environments/environment';
+
+const supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
 
 @Component({
-  selector: 'app-stats',
-  templateUrl: './stats.page.html',
-  styleUrls: ['./stats.page.scss'],
+  selector: 'app-estadistica',
+  templateUrl: './estadistica.page.html',
+  styleUrls: ['./estadistica.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule],
 })
-export class StatsPage implements OnInit {
+export class EstadisticaPage implements OnInit {
+  ranking: any[] = [];
 
-  constructor() { }
-
-  ngOnInit() {
+  async ngOnInit() {
+    await this.obtenerRanking();
   }
 
+  async obtenerRanking() {
+    const { data, error } = await supabase.from('ranking_top10').select('*');
+    if (error) console.error('Error cargando ranking:', error);
+    else this.ranking = data;
+  }
 }
