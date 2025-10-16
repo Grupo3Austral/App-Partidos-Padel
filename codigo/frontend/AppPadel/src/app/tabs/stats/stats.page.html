@@ -10,13 +10,13 @@
       <ion-item *ngFor="let jugador of ranking; index as i">
         <ion-label>
           <h2>{{ i + 1 }}. {{ jugador.nombre }}</h2>
-          <p>{{ jugador.puntos }} puntos</p>
+          <p>Puntos: {{ jugador.puntos }}</p>
         </ion-label>
       </ion-item>
     </ion-list>
   </ion-card>
 
   <ng-template #sinDatos>
-    <p class="ion-text-center">No hay datos aún.</p>
+    <p>No hay datos aún.</p>
   </ng-template>
 </ion-content>
