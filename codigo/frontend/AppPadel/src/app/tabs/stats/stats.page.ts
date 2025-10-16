@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { IonicModule, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonList, IonItem, IonLabel } from '@ionic/angular';
 import { createClient } from '@supabase/supabase-js';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 
 const supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
 
@@ -8,26 +10,39 @@ const supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
   selector: 'app-stats',
   templateUrl: './stats.page.html',
   styleUrls: ['./stats.page.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    IonicModule,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonCard,
+    IonList,
+    IonItem,
+    IonLabel
+  ]
 })
 export class StatsPage implements OnInit {
   ranking: any[] = [];
 
   async ngOnInit() {
-    await this.cargarRanking();
+    await this.obtenerRanking();
   }
 
-  async cargarRanking() {
+  async obtenerRanking() {
     const { data, error } = await supabase
-      .from('ranking_top10') // 👈 nombre correcto de tu tabla
-      .select('nombre, puntos')
+      .from('ranking_top10')
+      .select('*')
       .order('puntos', { ascending: false })
       .limit(10);
 
     if (error) {
-      console.error('Error cargando ranking:', error);
+      console.error('Error al obtener el ranking:', error);
     } else {
       this.ranking = data || [];
-      console.log('Ranking cargado:', this.ranking);
     }
   }
 }
+
