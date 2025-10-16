@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonList, IonItem, IonLabel } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { createClient } from '@supabase/supabase-js';
 import { environment } from '../../../environments/environment';
 
@@ -11,18 +11,7 @@ const supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
   templateUrl: './stats.page.html',
   styleUrls: ['./stats.page.scss'],
   standalone: true,
-  imports: [
-    CommonModule,
-    IonicModule,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonCard,
-    IonList,
-    IonItem,
-    IonLabel
-  ]
+  imports: [CommonModule, IonicModule]
 })
 export class StatsPage implements OnInit {
   ranking: any[] = [];
@@ -45,4 +34,3 @@ export class StatsPage implements OnInit {
     }
   }
 }
-
