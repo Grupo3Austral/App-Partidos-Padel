@@ -1,0 +1,21 @@
+ion-content {
+  --background: #000; // Fondo negro para resaltar las fotos
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.gallery-item {
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  min-height: 150px;
+  transition: transform 0.3s ease;
+}
+
+.gallery-item:hover {
+  transform: scale(1.03);
+}
