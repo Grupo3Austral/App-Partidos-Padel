@@ -1,20 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-capture',
   templateUrl: './capture.page.html',
   styleUrls: ['./capture.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule]
 })
-export class CapturePage implements OnInit {
+export class CapturePage {
 
-  constructor() { }
+  images = [
+    { src: 'assets/img/padelfondo.png', alt: 'Partido de pádel' },
+    { src: 'assets/img/login.png', alt: 'Pelotas de pádel' },
+    { src: 'assets/img/snack.png', alt: 'Jugador en acción' },
+    { src: 'assets/img/dinner.png', alt: 'Jugadores en partido' },
+    { src: 'assets/img/coffee.png', alt: 'Raqueta y pelota' }
+  ];
 
-  ngOnInit() {
-  }
-
+  constructor() {}
 }
