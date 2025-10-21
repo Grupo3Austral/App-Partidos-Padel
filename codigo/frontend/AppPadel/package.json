@@ -28,6 +28,7 @@
     "@capacitor/status-bar": "7.0.3",
     "@ionic/angular": "^8.0.0",
     "@supabase/supabase-js": "^2.75.0",
+    "chart.js": "^4.5.1",
     "dotenv": "^17.2.3",
     "ionicons": "^7.0.0",
     "rxjs": "~7.8.0",
