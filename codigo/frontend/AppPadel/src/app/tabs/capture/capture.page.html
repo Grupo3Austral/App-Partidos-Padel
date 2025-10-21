@@ -1,25 +1,40 @@
 <ion-header>
-  <ion-toolbar color="dark">
-    <ion-title>📸 Capturas de Pádel</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Fotos de Partidos</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <div class="gallery">
-    <div class="gallery-item" 
-      style="background-image: url('https://images.unsplash.com/photo-1622979273019-69c9e2b8f51b?auto=format&fit=crop&w=800&q=80');">
-    </div>
-    <div class="gallery-item" 
-      style="background-image: url('https://images.unsplash.com/photo-1622979273170-4443465a12ab?auto=format&fit=crop&w=800&q=80');">
-    </div>
-    <div class="gallery-item" 
-      style="background-image: url('https://images.unsplash.com/photo-1622979273142-4c9a4c3a745e?auto=format&fit=crop&w=800&q=80');">
-    </div>
-    <div class="gallery-item" 
-      style="background-image: url('https://images.unsplash.com/photo-1622979273030-f404c52aa6cc?auto=format&fit=crop&w=800&q=80');">
-    </div>
-    <div class="gallery-item" 
-      style="background-image: url('https://images.unsplash.com/photo-1622979273221-07ec8f9f4f29?auto=format&fit=crop&w=800&q=80');">
-    </div>
+  <div class="upload-card">
+    <ion-item>
+      <ion-label position="stacked">Descripción</ion-label>
+      <ion-input [(ngModel)]="description" placeholder="Escribe algo sobre el partido..."></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <input type="file" (change)="uploadImage($event)" accept="image/*" />
+    </ion-item>
+
+    <ion-button expand="block" (click)="savePhoto()">Subir Foto</ion-button>
   </div>
+
+  <div *ngIf="photos.length > 0; else noPhotos">
+    <ion-slides [options]="slideOpts" pager="true">
+      <ion-slide *ngFor="let photo of photos">
+        <ion-card>
+          <img [src]="photo.photo_url" alt="Foto de partido" />
+          <ion-card-content>
+            <p>{{ photo.description }}</p>
+            <small>{{ photo.created_at | date: 'short' }}</small>
+          </ion-card-content>
+        </ion-card>
+      </ion-slide>
+    </ion-slides>
+  </div>
+
+  <ng-template #noPhotos>
+    <ion-text color="medium" class="ion-text-center">
+      <p>Aún no se han subido fotos de partidos ⚽</p>
+    </ion-text>
+  </ng-template>
 </ion-content>

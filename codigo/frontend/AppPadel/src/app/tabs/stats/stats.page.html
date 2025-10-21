@@ -1,22 +1,35 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>🏆 Ranking de Pádel</ion-title>
+    <ion-title>📈 Estadísticas del Partido</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card *ngIf="ranking.length > 0; else sinDatos">
-    <ion-list>
-      <ion-item *ngFor="let jugador of ranking; index as i">
-        <ion-label>
-          <h2>{{ i + 1 }}. {{ jugador.nombre }}</h2>
-          <p>Puntos: {{ jugador.puntos }}</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-card>
 
-  <ng-template #sinDatos>
-    <p>No hay datos aún.</p>
-  </ng-template>
+  <!-- Gráfico -->
+  <div class="chart-container">
+    <canvas id="statsChart"></canvas>
+  </div>
+
+  <!-- Botones -->
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" color="success" (click)="updateStat('puntos')">
+          + Punto Ganado
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" color="danger" (click)="updateStat('errores')">
+          + Error No Forzado
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" color="tertiary" (click)="updateStat('saques')">
+          + Saque Ganado
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>

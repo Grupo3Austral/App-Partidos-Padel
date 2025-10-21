@@ -1,18 +1,14 @@
-ion-card-title {
+.chart-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 30px auto;
+}
+
+ion-button {
+  font-weight: bold;
+  border-radius: 12px;
+}
+
+ion-toolbar {
   text-align: center;
-  font-weight: bold;
-  font-size: 1.4em;
-}
-
-ion-item {
-  --background: #1e1e1e;
-  color: white;
-}
-
-ion-label h2 {
-  font-weight: bold;
-}
-
-ion-label p {
-  color: #9e9e9e;
 }
