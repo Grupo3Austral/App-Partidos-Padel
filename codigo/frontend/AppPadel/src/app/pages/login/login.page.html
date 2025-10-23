@@ -1,46 +1,42 @@
 <ion-content class="login-content" fullscreen>
- <!-- Overlay oscuro sobre el fondo -->
- <div class="background-overlay"></div>
+  <!-- Fondo y overlay -->
+  <div class="background-overlay"></div>
 
+  <!-- Contenedor centrado -->
+  <div class="login-wrapper">
+    <div class="login-card" @fadeIn>
+      <ion-icon name="tennisball-outline" class="login-icon"></ion-icon>
+      <h2 class="login-title">Bienvenido a App-Padel</h2>
+      <p class="login-subtitle">Ingresá con tus credenciales</p>
 
- <!-- Wrapper centrado -->
- <div class="login-wrapper">
-   <div class="login-card">
-     <ion-icon name="person-circle-outline" class="login-icon"></ion-icon>
-     <h2 class="login-title">Bienvenido a App-Padel</h2>
-     <p class="login-subtitle"></p>
+      <!-- Inputs -->
+      <ion-item class="login-item">
+        <ion-label position="floating">Correo</ion-label>
+        <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
+      </ion-item>
 
+      <ion-item class="login-item">
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
+      </ion-item>
 
-     <!-- Inputs -->
-     <ion-item class="login-item">
-       <ion-label position="floating">Correo</ion-label>
-       <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
-     </ion-item>
+      <!-- Botón -->
+      <ion-button expand="block" class="login-button" (click)="login()">
+        INGRESAR
+      </ion-button>
 
+      <!-- Error -->
+      <ion-text color="danger" *ngIf="errorMessage">
+        <p>{{ errorMessage }}</p>
+      </ion-text>
 
-     <ion-item class="login-item">
-       <ion-label position="floating">Contraseña</ion-label>
-       <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
-     </ion-item>
-
-
-     <!-- Botón -->
-     <ion-button expand="block" class="login-button" (click)="login()">Ingresar</ion-button>
-
-
-     <!-- Error -->
-     <ion-text color="danger" *ngIf="errorMessage">
-       <p>{{ errorMessage }}</p>
-     </ion-text>
-
-
-     <!-- Footer -->
-     <div class="footer-text">
-       ¿No tenés cuenta?
-       <a routerLink="/register">Registrate</a>
-     </div>
-   </div>
- </div>
+      <!-- Footer -->
+      <div class="footer-text">
+        ¿No tenés cuenta?
+        <a routerLink="/register">Registrate</a>
+      </div>
+    </div>
+  </div>
 </ion-content>
 
 
