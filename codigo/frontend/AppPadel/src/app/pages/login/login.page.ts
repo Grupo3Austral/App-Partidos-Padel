@@ -38,7 +38,8 @@ export class LoginPage {
       }
 
       console.log('Login exitoso:', data);
-      this.router.navigate(['/tabs/home']); // o la ruta que corresponda a tu home
+   this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
+
     } catch (err: any) {
       console.error('Error inesperado:', err);
       this.errorMessage = 'Error al intentar iniciar sesión.';
