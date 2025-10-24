@@ -8,7 +8,7 @@ import {
   IonTabButton,
   IonIcon,
   IonLabel,
-  IonRouterOutlet,
+  IonRouterOutlet
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -24,8 +24,8 @@ import {
     IonTabButton,
     IonIcon,
     IonLabel,
-    IonRouterOutlet, // 🔹 Este import soluciona tu error
-  ],
+    IonRouterOutlet
+  ]
 })
 export class TabsPage {
   constructor(private auth: Auth, private router: Router) {}
