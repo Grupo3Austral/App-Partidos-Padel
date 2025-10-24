@@ -4,21 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { supabase } from '../../supabase';
 
-type Energy = 'bajo' | 'medio' | 'alto';
-type Intensity = 'ligero' | 'moderado' | 'intenso';
-type Injury = 'ok' | 'leve' | 'moderada' | 'grave';
-
-interface HealthEntry {
-  entry_date: string;
-  energy_level: Energy | null;
-  intensity: Intensity | null;
-  session_minutes: number | null;
-  sleep_hours: number | null;
-  hydration_liters: number | null;
-  injury_status: Injury | null;
-  notes: string | null;
-}
-
 @Component({
   selector: 'app-health',
   standalone: true,
@@ -29,15 +14,15 @@ interface HealthEntry {
 export class HealthPage implements OnInit {
   userId: string | null = null;
 
-  entry: HealthEntry = {
-    entry_date: new Date().toISOString().slice(0,10),
-    energy_level: null,
-    intensity: null,
-    session_minutes: null,
-    sleep_hours: null,
-    hydration_liters: null,
-    injury_status: 'ok',
-    notes: null
+  entry = {
+    fecha: new Date().toISOString().slice(0, 10),
+    nivel_energia: '',
+    intensidad: '',
+    duracion: null as number | null,
+    sueno: null as number | null,
+    agua: null as number | null,
+    estado_fisico: '',
+    notas: ''
   };
 
   constructor(private toast: ToastController) {}
@@ -45,37 +30,48 @@ export class HealthPage implements OnInit {
   async ngOnInit() {
     const { data } = await supabase.auth.getUser();
     this.userId = data.user?.id ?? null;
-    await this.loadForDate();
+    await this.cargarRegistro();
   }
 
   async onDateChange() {
-    await this.loadForDate();
+    await this.cargarRegistro();
   }
 
-  private async loadForDate() {
+  // 🔹 Cargar registro existente
+  private async cargarRegistro() {
     if (!this.userId) {
       this.notify('Inicia sesión para guardar en la nube', 'warning');
       return;
     }
+
     const { data, error } = await supabase
-      .from('health_entries')
-      .select('entry_date, energy_level, intensity, session_minutes, sleep_hours, hydration_liters, injury_status, notes')
+      .from('health')
+      .select('fecha, nivel_energia, intensidad, duracion, sueno, agua, estado_fisico, notas')
       .eq('user_id', this.userId)
-      .eq('entry_date', this.entry.entry_date)
+      .eq('fecha', this.entry.fecha)
       .maybeSingle();
 
-    if (error) return this.notify('No se pudo leer el registro', 'danger');
+    if (error) {
+      console.error('Error al leer registro:', error);
+      return this.notify('No se pudo leer el registro', 'danger');
+    }
 
-    if (data) this.entry = { ...data } as HealthEntry;
+    if (data) this.entry = { ...data };
     else this.resetExceptDate();
   }
 
+  // 🔹 Reinicia los campos si no hay registro
   private resetExceptDate() {
-    const d = this.entry.entry_date;
+    const fecha = this.entry.fecha;
     this.entry = {
-      entry_date: d, energy_level: null, intensity: null,
-      session_minutes: null, sleep_hours: null, hydration_liters: null,
-      injury_status: 'ok', notes: null
+      fecha,
+      nivel_energia: '',
+      intensidad: '',
+      duracion: null,
+      sueno: null,
+      agua: null,
+      estado_fisico: '',
+      notas: ''
     };
   }
 
@@ -84,31 +80,36 @@ export class HealthPage implements OnInit {
     return Number.isFinite(n) ? n : null;
   }
 
-  async save() {
+  // 🔹 Guardar en Supabase
+  async guardar() {
     if (!this.userId) return this.notify('Necesitás iniciar sesión', 'warning');
 
     const row = {
       user_id: this.userId,
-      entry_date: this.entry.entry_date,
-      energy_level: this.entry.energy_level,
-      intensity: this.entry.intensity,
-      session_minutes: this.num(this.entry.session_minutes),
-      sleep_hours: this.num(this.entry.sleep_hours),
-      hydration_liters: this.num(this.entry.hydration_liters),
-      injury_status: this.entry.injury_status,
-      notes: this.entry.notes
+      fecha: this.entry.fecha,
+      nivel_energia: this.entry.nivel_energia,
+      intensidad: this.entry.intensidad,
+      duracion: this.num(this.entry.duracion),
+      sueno: this.num(this.entry.sueno),
+      agua: this.num(this.entry.agua),
+      estado_fisico: this.entry.estado_fisico,
+      notas: this.entry.notas
     };
 
     const { error } = await supabase
-      .from('health_entries')
-      .upsert(row, { onConflict: 'user_id,entry_date' });
+      .from('health')
+      .upsert(row, { onConflict: 'user_id,fecha' });
 
-    if (error) return this.notify('No se pudo guardar', 'danger');
+    if (error) {
+      console.error('Error al guardar:', error);
+      return this.notify('No se pudo guardar ❌', 'danger');
+    }
 
-    this.notify('Guardado ✅');
+    this.notify('Guardado correctamente ✅');
   }
 
-  private async notify(message: string, color: 'success'|'warning'|'danger'='success') {
+  // 🔹 Mostrar notificación
+  private async notify(message: string, color: 'success' | 'warning' | 'danger' = 'success') {
     const t = await this.toast.create({ message, duration: 1500, color, position: 'bottom' });
     t.present();
   }
