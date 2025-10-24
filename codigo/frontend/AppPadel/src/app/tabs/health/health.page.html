@@ -1,1 +1,87 @@
-
+<ion-header translucent="true">
+    <ion-toolbar>
+      <ion-title>💙 Health</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content [fullscreen]="true" class="ion-padding">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Registro diario</ion-card-title>
+        <ion-card-subtitle>Se guarda en Supabase</ion-card-subtitle>
+      </ion-card-header>
+  
+      <ion-card-content>
+        <form (ngSubmit)="save()" novalidate>
+          <ion-item>
+            <ion-label position="stacked">Fecha</ion-label>
+            <ion-datetime presentation="date"
+                          [(ngModel)]="entry.entry_date"
+                          name="entry_date"
+                          (ionChange)="onDateChange()">
+            </ion-datetime>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="stacked">Nivel de energía</ion-label>
+            <ion-select [(ngModel)]="entry.energy_level" name="energy_level" interface="popover">
+              <ion-select-option value="bajo">Bajo</ion-select-option>
+              <ion-select-option value="medio">Medio</ion-select-option>
+              <ion-select-option value="alto">Alto</ion-select-option>
+            </ion-select>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="stacked">Intensidad del partido</ion-label>
+            <ion-select [(ngModel)]="entry.intensity" name="intensity" interface="popover">
+              <ion-select-option value="ligero">Ligero</ion-select-option>
+              <ion-select-option value="moderado">Moderado</ion-select-option>
+              <ion-select-option value="intenso">Intenso</ion-select-option>
+            </ion-select>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="stacked">Duración (min)</ion-label>
+            <ion-input type="number" inputmode="numeric"
+                       [(ngModel)]="entry.session_minutes" name="session_minutes"
+                       placeholder="ej. 60"></ion-input>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="stacked">Sueño (hs)</ion-label>
+            <ion-input type="number" step="0.1"
+                       [(ngModel)]="entry.sleep_hours" name="sleep_hours"
+                       placeholder="ej. 7.5"></ion-input>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="stacked">Agua (L)</ion-label>
+            <ion-input type="number" step="0.1"
+                       [(ngModel)]="entry.hydration_liters" name="hydration_liters"
+                       placeholder="ej. 1.2"></ion-input>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="stacked">Estado físico</ion-label>
+            <ion-select [(ngModel)]="entry.injury_status" name="injury_status" interface="popover">
+              <ion-select-option value="ok">Sin molestias</ion-select-option>
+              <ion-select-option value="leve">Leve</ion-select-option>
+              <ion-select-option value="moderada">Moderada</ion-select-option>
+              <ion-select-option value="grave">Grave</ion-select-option>
+            </ion-select>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="stacked">Notas</ion-label>
+            <ion-textarea rows="2" autoGrow="true"
+                          [(ngModel)]="entry.notes" name="notes"
+                          placeholder="Algo para recordar..."></ion-textarea>
+          </ion-item>
+  
+          <ion-button type="submit" expand="block" class="ion-margin-top">
+            Guardar
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
