@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { Auth } from 'src/app/services/auth';
-
 import {
   IonTabs,
   IonTabBar,
   IonTabButton,
   IonIcon,
-  IonLabel
+  IonLabel,
+  IonRouterOutlet,
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -23,8 +23,9 @@ import {
     IonTabBar,
     IonTabButton,
     IonIcon,
-    IonLabel
-  ]
+    IonLabel,
+    IonRouterOutlet, // 🔹 Este import soluciona tu error
+  ],
 })
 export class TabsPage {
   constructor(private auth: Auth, private router: Router) {}
@@ -33,4 +34,4 @@ export class TabsPage {
     await this.auth.logout();
     this.router.navigateByUrl('/login', { replaceUrl: true });
   }
-} // 👈 ESTA llave faltaba
+}
