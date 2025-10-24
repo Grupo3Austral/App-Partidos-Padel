@@ -1,3 +1,12 @@
+ion-tabs {
+  height: 100%;
+}
+
+ion-router-outlet {
+  height: calc(100% - 65px); /* deja espacio para la barra de tabs */
+  display: block;
+}
+
 ion-tab-bar {
   background-color: #a79e9e;
   border-top: 2px solid #ffd700;
