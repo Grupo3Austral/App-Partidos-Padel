@@ -4,45 +4,55 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { Auth } from '../../services/auth'; // ✅ ruta corregida
+import { supabase } from '../../supabase';
+
+
+
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule,
-    IonicModule
-  ]
+ selector: 'app-login',
+ standalone: true,
+ templateUrl: './login.page.html',
+ styleUrls: ['./login.page.scss'],
+ imports: [
+   CommonModule,
+   FormsModule,
+   RouterModule,
+   IonicModule
+ ]
 })
 export class LoginPage {
-  email: string = '';
-  password: string = '';
-  errorMessage: string = '';
+ email: string = '';
+ password: string = '';
+loading = false;
+ errorMessage: string = '';
 
-  constructor(private authService: Auth, private router: Router) {}
 
-  async login() {
-  this.errorMessage = '';
-  console.log('Intentando login con:', this.email);
+ constructor(private authService: Auth, private router: Router) {}
 
-  try {
-    const { data, error } = await this.authService.login(this.email, this.password);
 
-    if (error) {
-      console.error('Error en login:', error.message);
-      this.errorMessage = error.message;
-      return;
-    }
+ async login() {
+ this.errorMessage = '';
+ console.log('Intentando login con:', this.email);
 
-    console.log('Login exitoso:', data);
-    await this.router.navigateByUrl('/tabs', { replaceUrl: true }); // ✅
-    
-  } catch (err: any) {
-    console.error('Error inesperado:', err);
-    this.errorMessage = 'Error al intentar iniciar sesión.';
-  }
+
+ try {
+   const { data, error } = await this.authService.login(this.email, this.password);
+
+
+   if (error) {
+     console.error('Error en login:', error.message);
+     this.errorMessage = error.message;
+     return;
+   }
+
+
+   console.log('Login exitoso:', data);
+   await this.router.navigateByUrl('/tabs', { replaceUrl: true }); // ✅
+  
+ } catch (err: any) {
+   console.error('Error inesperado:', err);
+   this.errorMessage = 'Error al intentar iniciar sesión.';
+ }
 }
 }

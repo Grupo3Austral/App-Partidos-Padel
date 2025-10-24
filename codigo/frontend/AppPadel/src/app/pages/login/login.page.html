@@ -1,33 +1,52 @@
-<ion-content class="login-content" fullscreen>
+<ion-content class="login-content" [fullscreen]="true">
   <!-- Fondo y overlay -->
   <div class="background-overlay"></div>
 
   <!-- Contenedor centrado -->
   <div class="login-wrapper">
-    <div class="login-card" @fadeIn>
-      <ion-icon name="tennisball-outline" class="login-icon"></ion-icon>
+    <div class="login-card">
+      <!-- Ícono -->
+      <ion-icon name="tennisball" class="login-icon"></ion-icon>
+
+      <!-- Títulos -->
       <h2 class="login-title">Bienvenido a App-Padel</h2>
       <p class="login-subtitle">Ingresá con tus credenciales</p>
 
       <!-- Inputs -->
       <ion-item class="login-item">
         <ion-label position="floating">Correo</ion-label>
-        <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
+        <ion-input
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          required
+          autocomplete="username">
+        </ion-input>
       </ion-item>
 
       <ion-item class="login-item">
         <ion-label position="floating">Contraseña</ion-label>
-        <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
+        <ion-input
+          type="password"
+          [(ngModel)]="password"
+          name="password"
+          required
+          autocomplete="current-password">
+        </ion-input>
       </ion-item>
 
       <!-- Botón -->
-      <ion-button expand="block" class="login-button" (click)="login()">
-        INGRESAR
+      <ion-button
+        expand="block"
+        class="login-button"
+        (click)="login()"
+        [disabled]="loading">
+        {{ loading ? 'Ingresando...' : 'INGRESAR' }}
       </ion-button>
 
       <!-- Error -->
       <ion-text color="danger" *ngIf="errorMessage">
-        <p>{{ errorMessage }}</p>
+        <p class="error-text">{{ errorMessage }}</p>
       </ion-text>
 
       <!-- Footer -->
@@ -38,5 +57,3 @@
     </div>
   </div>
 </ion-content>
-
-
