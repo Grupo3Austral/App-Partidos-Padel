@@ -38,7 +38,9 @@ export class LoginPage {
       }
 
       console.log('Login exitoso:', data);
-   this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
+   this.router.navigate(['/tabs'], { replaceUrl: true });
+
+
 
     } catch (err: any) {
       console.error('Error inesperado:', err);
