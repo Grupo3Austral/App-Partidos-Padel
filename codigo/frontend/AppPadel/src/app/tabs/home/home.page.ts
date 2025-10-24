@@ -32,25 +32,44 @@ export class HomePage implements OnInit {
     await this.obtenerPadel();
   }
 
-  // 🔹 Leer registros
+  // 🔹 Leer registros desde la tabla padel_test
   async obtenerPadel() {
-    const { data, error } = await supabase.from('padel').select('*').order('created_at', { ascending: false });
-    if (error) console.error('Error al obtener padel:', error);
-    else this.padelList = data || [];
+    const { data, error } = await supabase
+      .from('padel_test')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('❌ Error al obtener padel:', error);
+      alert('❌ Error al obtener registros: ' + error.message);
+    } else {
+      this.padelList = data || [];
+    }
   }
 
   // 🔹 Crear registro
   async agregarPadel() {
-    const { error } = await supabase.from('padel').insert([this.nuevoPadel]);
-    if (error) alert('❌ Error al agregar: ' + error.message);
-    else {
-      alert('✅ Registro agregado');
+    const padelData = {
+      perfil_id: this.nuevoPadel.perfil_id || null,
+      estadistica_id: this.nuevoPadel.estadistica_id || null,
+      cancha_id: this.nuevoPadel.cancha_id || null,
+      ubicacion: this.nuevoPadel.ubicacion || null,
+      horario_id: this.nuevoPadel.horario_id || null
+    };
+
+    const { error } = await supabase.from('padel_test').insert([padelData]);
+
+    if (error) {
+      console.error('❌ Error al agregar:', error);
+      alert('❌ Error al agregar: ' + error.message);
+    } else {
+      alert('✅ Registro agregado correctamente');
       this.nuevoPadel = { perfil_id: '', estadistica_id: '', cancha_id: '', ubicacion: '', horario_id: '' };
       await this.obtenerPadel();
     }
   }
 
-  // 🔹 Editar
+  // 🔹 Editar registro
   editarPadel(padel: any) {
     this.editando = true;
     this.padelEditando = { ...padel };
@@ -58,12 +77,15 @@ export class HomePage implements OnInit {
 
   async guardarEdicion() {
     const { error } = await supabase
-      .from('padel')
+      .from('padel_test')
       .update(this.padelEditando)
       .eq('id', this.padelEditando.id);
-    if (error) alert('❌ Error al editar: ' + error.message);
-    else {
-      alert('✅ Cambios guardados');
+
+    if (error) {
+      console.error('❌ Error al editar:', error);
+      alert('❌ Error al editar: ' + error.message);
+    } else {
+      alert('✅ Cambios guardados correctamente');
       this.editando = false;
       this.padelEditando = null;
       await this.obtenerPadel();
@@ -75,11 +97,19 @@ export class HomePage implements OnInit {
     this.padelEditando = null;
   }
 
+  // 🔹 Eliminar registro
   async eliminarPadel(id: string) {
     const confirmar = confirm('¿Eliminar este registro?');
     if (!confirmar) return;
-    const { error } = await supabase.from('padel').delete().eq('id', id);
-    if (error) alert('❌ Error al eliminar: ' + error.message);
-    else await this.obtenerPadel();
+
+    const { error } = await supabase.from('padel_test').delete().eq('id', id);
+
+    if (error) {
+      console.error('❌ Error al eliminar:', error);
+      alert('❌ Error al eliminar: ' + error.message);
+    } else {
+      alert('✅ Registro eliminado');
+      await this.obtenerPadel();
+    }
   }
 }
