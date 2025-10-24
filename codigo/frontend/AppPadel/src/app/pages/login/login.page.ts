@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { Auth } from 'src/app/services/auth';
+import { Auth } from '../../services/auth'; // ✅ ruta corregida
 
 @Component({
   selector: 'app-login',
@@ -25,26 +25,24 @@ export class LoginPage {
   constructor(private authService: Auth, private router: Router) {}
 
   async login() {
-    this.errorMessage = '';
-    console.log('Intentando login con:', this.email);
+  this.errorMessage = '';
+  console.log('Intentando login con:', this.email);
 
-    try {
-      const { data, error } = await this.authService.login(this.email, this.password);
+  try {
+    const { data, error } = await this.authService.login(this.email, this.password);
 
-      if (error) {
-        console.error('Error en login:', error.message);
-        this.errorMessage = error.message;
-        return;
-      }
-
-      console.log('Login exitoso:', data);
-   this.router.navigate(['/tabs'], { replaceUrl: true });
-
-
-
-    } catch (err: any) {
-      console.error('Error inesperado:', err);
-      this.errorMessage = 'Error al intentar iniciar sesión.';
+    if (error) {
+      console.error('Error en login:', error.message);
+      this.errorMessage = error.message;
+      return;
     }
+
+    console.log('Login exitoso:', data);
+    await this.router.navigateByUrl('/tabs', { replaceUrl: true }); // ✅
+    
+  } catch (err: any) {
+    console.error('Error inesperado:', err);
+    this.errorMessage = 'Error al intentar iniciar sesión.';
   }
+}
 }

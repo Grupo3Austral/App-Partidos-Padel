@@ -1,6 +1,5 @@
 <ion-tabs>
   <ion-tab-bar slot="bottom">
-    
     <ion-tab-button tab="home" [routerLink]="['/tabs/home']">
       <img src="assets/img/home-outline.svg" alt="Home" style="width: 24px; height: 24px;" />
     </ion-tab-button>
@@ -17,12 +16,8 @@
       <img src="assets/img/bar-chart-sharp.svg" alt="Stats" style="width: 24px; height: 24px;" />
     </ion-tab-button>
 
-    <ion-tab-button (click)="logoutDirect()" tab="profile">
+    <ion-tab-button (click)="logoutDirect()">
       <img src="assets/img/log-out-outline.svg" alt="Logout" style="width: 24px; height: 24px;" />
     </ion-tab-button>
-
   </ion-tab-bar>
 </ion-tabs>
-
-
-
