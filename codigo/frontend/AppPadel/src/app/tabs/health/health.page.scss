@@ -1,19 +1,15 @@
-.health-content {
-    ion-card {
-      margin: 12px;
-    }
-  
-    ion-item {
-      --inner-padding-top: 8px;
-      --inner-padding-bottom: 8px;
-    }
-  
-    .saved-hint {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 10px;
-      font-size: 0.9rem;
-      color: var(--ion-color-medium);
-    }
-  }
+:host {
+  --background: none !important;
+}
+
+ion-content {
+  --background: linear-gradient(180deg, #0c5f32, #0a4425, #062918) !important;
+}
+
+/* Opcional: dar transparencia a las tarjetas para que se vean sobre el fondo */
+ion-card {
+  background: rgba(0, 0, 0, 0.35) !important;
+  backdrop-filter: blur(4px);
+  border-radius: 14px;
+  margin: 12px;
+}

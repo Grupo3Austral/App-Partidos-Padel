@@ -19,3 +19,8 @@ ion-content {
 .gallery-item:hover {
   transform: scale(1.03);
 }
+
+/* Fondo degradado verde estilo pádel */
+ion-content {
+  --background: linear-gradient(135deg, #003300 0%, #006600 50%, #009933 100%);
+}
