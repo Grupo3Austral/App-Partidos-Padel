@@ -17,7 +17,12 @@ Chart.register(...registerables);
 })
 export class StatsPage implements OnInit {
   chart: any;
+
+  // estadísticas actuales
   stats = { puntos: 0, errores: 0, saques: 0 };
+
+  // 👇 NUEVO: historial de movimientos para poder deshacer
+  history: ('puntos' | 'errores' | 'saques')[] = [];
 
   async ngOnInit() {
     await this.loadStats();
@@ -33,8 +38,28 @@ export class StatsPage implements OnInit {
     await supabase.from('player_stats').upsert(this.stats);
   }
 
+  // ⬆ SUMAR punto / error / saque
   async updateStat(type: 'puntos' | 'errores' | 'saques') {
     this.stats[type]++;
+
+    // guardo qué hiciste para poder deshacer
+    this.history.push(type);
+
+    this.updateChart();
+    await this.saveStats();
+  }
+
+  // ⬅ DESHACER último movimiento
+  async undoLast() {
+    const last = this.history.pop();
+    if (!last) {
+      return; // no hay nada que deshacer
+    }
+
+    if (this.stats[last] > 0) {
+      this.stats[last]--;
+    }
+
     this.updateChart();
     await this.saveStats();
   }
