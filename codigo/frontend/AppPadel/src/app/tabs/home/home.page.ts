@@ -49,6 +49,10 @@ export class HomePage implements OnInit {
 
   // 🔹 Crear registro
   async agregarPadel() {
+
+
+
+
     const padelData = {
       perfil_id: this.nuevoPadel.perfil_id || null,
       estadistica_id: this.nuevoPadel.estadistica_id || null,
